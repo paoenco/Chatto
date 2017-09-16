@@ -78,4 +78,43 @@ public final class TextMessageCollectionViewCell: BaseMessageCollectionViewCell<
             self.bubbleView.layoutCache = self.layoutCache
         }
     }
+
+
+    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(UIResponderStandardEditActions.copy(_:)) {
+            return true
+        }
+
+        if action == #selector(UIResponderStandardEditActions.delete(_:)) {
+            return true
+        }
+
+        if action == #selector(details(_:)) {
+            return true
+        }
+
+        return false
+    }
+
+    override public func delete(_ sender: Any?) {
+        performMenuControllerAction(#selector(delete(_:)))
+    }
+
+    @objc func details(_ sender: Any?) {
+        performMenuControllerAction(#selector(details(_:)))
+    }
+
+    func performMenuControllerAction(_ action: Selector)  {
+        var v = self.superview
+        while v != nil {
+            if let collectionView = v as? UICollectionView {
+                if let indexPath = collectionView.indexPath(for: self) {
+                    collectionView.delegate?.collectionView!(collectionView, performAction: action, forItemAt: indexPath, withSender: "")
+                    break
+                }
+            } else {
+                v = v?.superview
+            }
+        }
+    }
 }

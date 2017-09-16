@@ -106,24 +106,43 @@ open class TextMessagePresenter<ViewModelBuilderT, InteractionHandlerT>
     }
 
     open override func canShowMenu() -> Bool {
+        let details = UIMenuItem(title: "Details", action: #selector(details(_:)))
+        UIMenuController.shared.menuItems = [details]
         return true
     }
 
     open override func canPerformMenuControllerAction(_ action: Selector) -> Bool {
-        let copySelector = #selector(UIResponderStandardEditActions.copy(_:))
-        let deleteSelector = #selector(UIResponderStandardEditActions.delete(_:))
-        return action == copySelector || action == deleteSelector
+        if action == #selector(UIResponderStandardEditActions.copy(_:)) {
+            return true
+        }
+
+        if action == #selector(UIResponderStandardEditActions.delete(_:)) {
+            return true
+        }
+
+        if action == #selector(details(_:)) {
+            return true
+        }
+
+        return false
     }
 
     open override func performMenuControllerAction(_ action: Selector) {
-        let copySelector = #selector(UIResponderStandardEditActions.copy(_:))
-        let deleteSelector = #selector(UIResponderStandardEditActions.delete(_:))
-        if action == copySelector {
+        if action == #selector(UIResponderStandardEditActions.copy(_:)) {
             UIPasteboard.general.string = self.messageViewModel.text
-        } else if action == deleteSelector {
+        }
+
+        if action == #selector(UIResponderStandardEditActions.delete(_:)) {
             print("\n\nDELETE HAS BEEN CHOSEN!")
-        } else {
-            assert(false, "Unexpected action")
+        }
+
+        if action == #selector(details(_:)) {
+            details("hello")
         }
     }
+
+    @objc func details(_ sender: Any?) {
+        print("\n\ndetails in text message presenter")
+    }
+
 }
