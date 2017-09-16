@@ -110,14 +110,18 @@ open class TextMessagePresenter<ViewModelBuilderT, InteractionHandlerT>
     }
 
     open override func canPerformMenuControllerAction(_ action: Selector) -> Bool {
-        let selector = #selector(UIResponderStandardEditActions.copy(_:))
-        return action == selector
+        let copySelector = #selector(UIResponderStandardEditActions.copy(_:))
+        let deleteSelector = #selector(UIResponderStandardEditActions.delete(_:))
+        return action == copySelector || action == deleteSelector
     }
 
     open override func performMenuControllerAction(_ action: Selector) {
-        let selector = #selector(UIResponderStandardEditActions.copy(_:))
-        if action == selector {
+        let copySelector = #selector(UIResponderStandardEditActions.copy(_:))
+        let deleteSelector = #selector(UIResponderStandardEditActions.delete(_:))
+        if action == copySelector {
             UIPasteboard.general.string = self.messageViewModel.text
+        } else if action == deleteSelector {
+            print("\n\nDELETE HAS BEEN CHOSEN!")
         } else {
             assert(false, "Unexpected action")
         }
