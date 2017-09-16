@@ -62,4 +62,24 @@ public final class PhotoMessageCollectionViewCell: BaseMessageCollectionViewCell
             self.bubbleView.performBatchUpdates(updateClosure, animated: false, completion: nil)
         }, animated: animated, completion: completion)
     }
+
+    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(UIResponderStandardEditActions.delete(_:)) {
+            return true
+        }
+
+        if action == #selector(details(_:)) {
+            return true
+        }
+
+        return false
+    }
+
+    override public func delete(_ sender: Any?) {
+        performMenuControllerAction(#selector(delete(_:)))
+    }
+
+    @objc func details(_ sender: Any?) {
+        performMenuControllerAction(#selector(details(_:)))
+    }
 }

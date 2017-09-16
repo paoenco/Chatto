@@ -39,6 +39,8 @@ public protocol BaseMessageInteractionHandlerProtocol {
     func userDidTapOnBubble(viewModel: ViewModelT)
     func userDidBeginLongPressOnBubble(viewModel: ViewModelT)
     func userDidEndLongPressOnBubble(viewModel: ViewModelT)
+    func userDidTapOnDelete(viewModel: ViewModelT)
+    func userDidTapOnDetails(viewModel: ViewModelT)
 }
 
 open class BaseMessagePresenter<BubbleViewT, ViewModelBuilderT, InteractionHandlerT>: BaseChatItemPresenter<BaseMessageCollectionViewCell<BubbleViewT>> where

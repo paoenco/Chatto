@@ -353,6 +353,20 @@ open class BaseMessageCollectionViewCell<BubbleViewType>: UICollectionViewCell, 
             break
         }
     }
+
+    func performMenuControllerAction(_ action: Selector)  {
+        var v = self.superview
+        while v != nil {
+            if let collectionView = v as? UICollectionView {
+                if let indexPath = collectionView.indexPath(for: self) {
+                    collectionView.delegate?.collectionView!(collectionView, performAction: action, forItemAt: indexPath, withSender: "")
+                    break
+                }
+            } else {
+                v = v?.superview
+            }
+        }
+    }
 }
 
 struct BaseMessageLayoutModel {

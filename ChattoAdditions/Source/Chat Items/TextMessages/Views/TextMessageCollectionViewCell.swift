@@ -79,7 +79,6 @@ public final class TextMessageCollectionViewCell: BaseMessageCollectionViewCell<
         }
     }
 
-
     open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if action == #selector(UIResponderStandardEditActions.copy(_:)) {
             return true
@@ -102,19 +101,5 @@ public final class TextMessageCollectionViewCell: BaseMessageCollectionViewCell<
 
     @objc func details(_ sender: Any?) {
         performMenuControllerAction(#selector(details(_:)))
-    }
-
-    func performMenuControllerAction(_ action: Selector)  {
-        var v = self.superview
-        while v != nil {
-            if let collectionView = v as? UICollectionView {
-                if let indexPath = collectionView.indexPath(for: self) {
-                    collectionView.delegate?.collectionView!(collectionView, performAction: action, forItemAt: indexPath, withSender: "")
-                    break
-                }
-            } else {
-                v = v?.superview
-            }
-        }
     }
 }

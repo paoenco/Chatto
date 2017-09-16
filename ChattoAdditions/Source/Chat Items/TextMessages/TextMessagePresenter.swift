@@ -133,16 +133,15 @@ open class TextMessagePresenter<ViewModelBuilderT, InteractionHandlerT>
         }
 
         if action == #selector(UIResponderStandardEditActions.delete(_:)) {
-            print("\n\nDELETE HAS BEEN CHOSEN!")
+            interactionHandler?.userDidTapOnDelete(viewModel: messageViewModel)
         }
 
         if action == #selector(details(_:)) {
-            details("hello")
+            details(nil)
         }
     }
 
     @objc func details(_ sender: Any?) {
-        print("\n\ndetails in text message presenter")
+        interactionHandler?.userDidTapOnDetails(viewModel: messageViewModel)
     }
-
 }

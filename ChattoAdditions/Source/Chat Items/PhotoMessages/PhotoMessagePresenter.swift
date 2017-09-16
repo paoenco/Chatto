@@ -102,4 +102,36 @@ open class PhotoMessagePresenter<ViewModelBuilderT, InteractionHandlerT>
             self.configureCell(cell, decorationAttributes: decorationAttributes, animated: self.itemVisibility != .appearing, additionalConfiguration: nil)
         }
     }
+
+    open override func canShowMenu() -> Bool {
+        let details = UIMenuItem(title: "Details", action: #selector(details(_:)))
+        UIMenuController.shared.menuItems = [details]
+        return true
+    }
+
+    open override func canPerformMenuControllerAction(_ action: Selector) -> Bool {
+        if action == #selector(UIResponderStandardEditActions.delete(_:)) {
+            return true
+        }
+
+        if action == #selector(details(_:)) {
+            return true
+        }
+
+        return false
+    }
+
+    open override func performMenuControllerAction(_ action: Selector) {
+        if action == #selector(UIResponderStandardEditActions.delete(_:)) {
+            interactionHandler?.userDidTapOnDelete(viewModel: messageViewModel)
+        }
+
+        if action == #selector(details(_:)) {
+            details(nil)
+        }
+    }
+
+    @objc func details(_ sender: Any?) {
+        interactionHandler?.userDidTapOnDetails(viewModel: messageViewModel)
+    }
 }
